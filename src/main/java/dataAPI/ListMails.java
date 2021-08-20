@@ -58,7 +58,7 @@ public class ListMails {
 			user = prop.getProperty("user");
 			password = prop.getProperty("password");
 			int date = Integer.parseInt(prop.getProperty("date"));
-			int month = Integer.parseInt(prop.getProperty("month"));
+			int month = Integer.parseInt(prop.getProperty("month")) - 1;
 			int year  = Integer.parseInt(prop.getProperty("year"));
 			C.set(year, month, date);
 		} catch (FileNotFoundException e) {
