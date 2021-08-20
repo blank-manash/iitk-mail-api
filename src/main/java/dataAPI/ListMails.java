@@ -87,7 +87,6 @@ public class ListMails {
 	}
 	public final void delete(final Message[] msg) throws MessagingException {
 		
-		C.set(2021, Calendar.JULY, 28);
 		System.out.println(C.getTime());
 		
 		for(int i = 0; i < msg.length; i++) {
