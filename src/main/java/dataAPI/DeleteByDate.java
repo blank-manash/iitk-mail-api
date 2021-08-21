@@ -18,14 +18,14 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.MimeBodyPart;
 
-public class ListMails {
+public class DeleteByDate {
 	private final static String host = "qasid.iitk.ac.in";
 	private String user = null;
 	private String password = null;
 	private final Calendar C = Calendar.getInstance();
 	private int dc = 0;
 	
-	public ListMails() { load();};
+	public DeleteByDate() { load();};
 	
 	private final String getCount(final Calendar dt) {
 		dc++;

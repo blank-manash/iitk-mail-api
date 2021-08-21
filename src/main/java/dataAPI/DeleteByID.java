@@ -37,7 +37,9 @@ public class DeleteByID extends Deleter {
 				"shipment-tracking@amazon.in",
 				"doad@iitk.ac.in",
 				"dord@iitk.ac.in",
-				"ccmt2021help@mnit.ac.in"
+				"ccmt2021help@mnit.ac.in",
+				"auto-confirm@amazon.in",
+				"onlinecourses@iitk.ac.in"
 		};
 		for(String s : rep) {
 			try {
