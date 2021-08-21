@@ -4,18 +4,19 @@ import java.io.IOException;
 
 import javax.mail.MessagingException;
 
-import dataAPI.ListMails;
+import dataAPI.Connection;
+import dataAPI.DeleteByID;
 
 public class Launcher {
-	private final static ListMails L = new ListMails();
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) throws IOException {
+		final DeleteByID D = new DeleteByID();
 		try {
-			L.list();
+			D.delete();
 		} catch (MessagingException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
+		Connection.close();
 		System.out.println("\nThanks!");
 	}
 
