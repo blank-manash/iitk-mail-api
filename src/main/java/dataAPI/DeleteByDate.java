@@ -18,20 +18,19 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.MimeBodyPart;
 
+/**
+ * @author Manash
+ *
+ */
 public class DeleteByDate {
 	private final static String host = "qasid.iitk.ac.in";
 	private String user = null;
 	private String password = null;
 	private final Calendar C = Calendar.getInstance();
 	private int dc = 0;
-	
-	public DeleteByDate() { load();};
-	
-	private final String getCount(final Calendar dt) {
-		dc++;
-		return "\rDeleting Mail " + dt.get(Calendar.MONTH) +  
-				" " + dt.get(Calendar.YEAR) + " .... " + dc;
-	}
+
+	public DeleteByDate() { load();}
+
 	private final Store connect() {
 		Properties props = System.getProperties();
 		props.setProperty("mail.imap.host", host);
@@ -49,7 +48,51 @@ public class DeleteByDate {
 		}
 		return null;
 	}
-	
+	public final void delete(final Message[] msg) throws MessagingException {
+
+		System.out.println(C.getTime());
+
+		for (Message element : msg) {
+			final Calendar dt = Calendar.getInstance();
+			dt.setTime(element.getReceivedDate());
+			if(dt.before(C)) {
+				element.setFlag(Flags.Flag.DELETED, true);
+				System.out.print(getCount(dt));
+			}
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private final void download(final Message msg) throws IOException, MessagingException {
+		final String dir = System.getProperty("user.dir") + "/Downloads";
+		final File folder = new File(dir);
+		folder.mkdir();
+		final Multipart m = (Multipart) msg.getContent();
+		for(int i = 0; i < m.getCount(); i++) {
+			final MimeBodyPart p = (MimeBodyPart) m.getBodyPart(i);
+			if(Part.ATTACHMENT.equalsIgnoreCase(p.getDisposition())) {
+				final String name = p.getFileName();
+				p.saveFile(dir + "/" + name);
+			}
+		}
+	}
+
+	private final String getCount(final Calendar dt) {
+		dc++;
+		return "\rDeleting Mail " + dt.get(Calendar.MONTH) +
+				" " + dt.get(Calendar.YEAR) + " .... " + dc;
+	}
+	public final void list() throws MessagingException, IOException {
+		Store store = connect();
+		Folder f = store.getFolder("INBOX");
+		f.open(Folder.READ_WRITE);
+		final Message[] msg = f.getMessages();
+		System.out.println("Count of Messages : " + msg.length);
+		delete(msg);
+		f.close();
+		store.close();
+
+	}
 	public final void load() {
 		final String dir = System.getProperty("user.dir") + "/auth.properties";
 		final Properties prop = new Properties();
@@ -68,45 +111,6 @@ public class DeleteByDate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	}
-	
-	@SuppressWarnings("unused")
-	private final void download(final Message msg) throws IOException, MessagingException {
-		final String dir = System.getProperty("user.dir") + "/Downloads";
-		final File folder = new File(dir);
-		folder.mkdir();
-		final Multipart m = (Multipart) msg.getContent();
-		for(int i = 0; i < m.getCount(); i++) {
-			final MimeBodyPart p = (MimeBodyPart) m.getBodyPart(i);
-			if(Part.ATTACHMENT.equalsIgnoreCase(p.getDisposition())) {
-				final String name = p.getFileName();
-				p.saveFile(dir + "/" + name);
-			}
-		}
-	}
-	public final void delete(final Message[] msg) throws MessagingException {
-		
-		System.out.println(C.getTime());
-		
-		for(int i = 0; i < msg.length; i++) {
-			final Calendar dt = Calendar.getInstance();
-			dt.setTime(msg[i].getReceivedDate());
-			if(dt.before(C)) {
-				msg[i].setFlag(Flags.Flag.DELETED, true);
-				System.out.print(getCount(dt));
-			}
-		}
-	}
-	public final void list() throws MessagingException, IOException {
-		Store store = connect();
-		Folder f = store.getFolder("INBOX");
-		f.open(Folder.READ_WRITE);
-		final Message[] msg = f.getMessages();
-		System.out.println("Count of Messages : " + msg.length);
-		delete(msg);
-		f.close();
-		store.close();
-		
+
 	}
 }

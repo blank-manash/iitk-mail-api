@@ -1,5 +1,6 @@
 target/
 .*
 !/.gitignore
-auth.properties
+*.properties
+*.log
 *.jar
