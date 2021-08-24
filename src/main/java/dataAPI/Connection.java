@@ -15,9 +15,9 @@ public class Connection {
 	private static String user;
 	private final static String host = "qasid.iitk.ac.in";
 	private static String password;
-	private final static Store store = connect();
+	private static Store store;
 	
-	private final static Store connect() {
+	public final static void connect() {
 		load();
 		Properties props = System.getProperties();
 		props.setProperty("mail.imap.host", host);
@@ -27,14 +27,13 @@ public class Connection {
 			final Store s = session.getStore("imaps");
 			s.connect(host, user, password);
 			System.out.println("Connected Successfully\n===========\n");
-			return s;
+			store = s;
 		} catch (NoSuchProviderException e) {
 			e.printStackTrace();
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 		
-		return null;
 	}
 	public final static void load() {
 		final String dir = System.getProperty("user.dir") + "/auth.properties";
