@@ -35,13 +35,16 @@ public class Connection {
 		}
 
 	}
-	
+
 	public static void connectByCred(String usr, String pw) {
 		user = usr;
 		password = pw;
 		connect();
 	}
-	private Connection() {};
+
+	private Connection() {
+	};
+
 	public final static void load() {
 		final String dir = System.getProperty("user.dir") + "/auth.properties";
 		final Properties prop = new Properties();

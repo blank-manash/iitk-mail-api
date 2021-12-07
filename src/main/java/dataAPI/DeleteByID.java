@@ -21,6 +21,7 @@ public class DeleteByID extends Deleter {
 	private final static HashSet<Address> H = new HashSet<>();
 	private final static TreeSet<String> organize = new TreeSet<>();
 	private final static String dir = System.getProperty("user.dir") + "/ID.log";
+
 	public DeleteByID() {
 		final File f = new File(dir);
 		BufferedReader br = null;
@@ -43,28 +44,31 @@ public class DeleteByID extends Deleter {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
+
 	public final void refresh() {
 		try {
 			final PrintWriter wr = new PrintWriter(new BufferedWriter(new FileWriter(dir)));
-			for(String x : organize) {
+			for (String x : organize) {
 				wr.println(x);
 			}
 			wr.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	public final String exists(final String id) {
-		if(organize.contains(id))
+		if (organize.contains(id))
 			return "Mail Exists";
 		else
 			return "Doesn't Exist";
 	}
+
 	public final void insert(final String id) {
-		if(organize.contains(id)) {
+		if (organize.contains(id)) {
 			return;
 		}
 		organize.add(id);
@@ -74,8 +78,9 @@ public class DeleteByID extends Deleter {
 			e.printStackTrace();
 		}
 	}
+
 	public final void erase(String id) {
-		if(organize.contains(id)) {
+		if (organize.contains(id)) {
 			organize.remove(id);
 			try {
 				H.remove(new InternetAddress(id));
@@ -84,6 +89,7 @@ public class DeleteByID extends Deleter {
 			}
 		}
 	}
+
 	@Override
 	protected boolean f(Message msg) {
 		try {

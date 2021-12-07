@@ -28,7 +28,7 @@ public class DownloadAttachment {
 	public final void downloadAll(String addr) {
 		Folder f = Connection.getFolder("INBOX");
 		try {
-			f.open(Folder.READ_WRITE);
+			f.open(Folder.READ_ONLY);
 			final Message[] msg = f.getMessages();
 			Arrays.stream(msg).forEach(s -> {
 				try {
