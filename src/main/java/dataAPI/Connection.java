@@ -16,9 +16,9 @@ public class Connection {
 	private final static String host = "qasid.iitk.ac.in";
 	private static String password;
 	private static Store store;
-	
+
 	public final static void connect() {
-		load();
+
 		Properties props = System.getProperties();
 		props.setProperty("mail.imap.host", host);
 		props.setProperty("mail.imap.port", "143");
@@ -33,8 +33,15 @@ public class Connection {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
+	
+	public static void connectByCred(String usr, String pw) {
+		user = usr;
+		password = pw;
+		connect();
+	}
+	private Connection() {};
 	public final static void load() {
 		final String dir = System.getProperty("user.dir") + "/auth.properties";
 		final Properties prop = new Properties();
@@ -48,6 +55,7 @@ public class Connection {
 			e.printStackTrace();
 		}
 	}
+
 	public final static Folder getFolder(final String S) {
 		try {
 			return store.getFolder(S);
@@ -56,6 +64,7 @@ public class Connection {
 		}
 		return null;
 	}
+
 	public static final void close() {
 		try {
 			store.close();
